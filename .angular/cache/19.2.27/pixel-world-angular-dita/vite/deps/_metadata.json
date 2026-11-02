@@ -1,0 +1,49 @@
+{
+  "hash": "c70d5bfe",
+  "configHash": "eb873ab0",
+  "lockfileHash": "62193d30",
+  "browserHash": "55c81215",
+  "optimized": {
+    "@angular/common": {
+      "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
+      "file": "@angular_common.js",
+      "fileHash": "2f51e4a1",
+      "needsInterop": false
+    },
+    "@angular/core": {
+      "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
+      "file": "@angular_core.js",
+      "fileHash": "24b22943",
+      "needsInterop": false
+    },
+    "@angular/forms": {
+      "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
+      "file": "@angular_forms.js",
+      "fileHash": "3411b4e4",
+      "needsInterop": false
+    },
+    "@angular/platform-browser": {
+      "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
+      "file": "@angular_platform-browser.js",
+      "fileHash": "b107a600",
+      "needsInterop": false
+    },
+    "@mediapipe/tasks-vision": {
+      "src": "../../../../../../node_modules/@mediapipe/tasks-vision/vision_bundle.mjs",
+      "file": "@mediapipe_tasks-vision.js",
+      "fileHash": "4c25f11f",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-Q4KJZWLM": {
+      "file": "chunk-Q4KJZWLM.js"
+    },
+    "chunk-JKLVBJRJ": {
+      "file": "chunk-JKLVBJRJ.js"
+    },
+    "chunk-WDMUDEB6": {
+      "file": "chunk-WDMUDEB6.js"
+    }
+  }
+}

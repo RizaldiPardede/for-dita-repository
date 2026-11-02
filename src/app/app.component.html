@@ -1,0 +1,88 @@
+<main class="world-shell" [class.is-entered]="entered" [class.is-transitioning]="transitioning">
+  <section class="intro" [attr.aria-hidden]="entered">
+    <div class="intro-stars" aria-hidden="true"><i class="spark spark-one">✦</i><i class="spark spark-two">✧</i><i class="spark spark-three">✦</i><i class="spark spark-four">·</i></div>
+    <div class="intro-copy"><span class="eyebrow">A tiny world made just for you</span><h1>Something<br>beautiful is<br><em>about to bloom.</em></h1><p>Click the flower to begin your little adventure.</p></div>
+    <button class="flower-button" type="button" (click)="enterWorld()" [disabled]="transitioning" aria-label="Open my pixel world">
+      <span class="flower-glow"></span>
+      <svg class="pixel-flower" viewBox="0 0 160 190" role="img" aria-label="Pink pixel flower">
+        <g class="petals" stroke="#9f456b" stroke-width="3" stroke-linejoin="round"><path fill="#ff9ec6" d="M64 43H48V27H64V11H96V27H112V43H128V75H112V91H96V107H64V91H48V75H32V43Z"/><path fill="#ffd1df" d="M64 27H80V43H96V59H112V75H96V91H64V75H48V59H64Z"/><path fill="#ffb3d0" d="M16 59H32V43H48V59H64V75H48V91H32V75H16Z"/><path fill="#ffb3d0" d="M112 59H128V43H144V59H160V75H144V91H128V75H112Z" transform="translate(-8 0)"/><path fill="#ffb3d0" d="M64 107V91H48V75H64V59H80V75H96V91H112V107H96V123H64Z"/><path fill="#fff0b5" d="M72 47H88V55H100V71H92V83H68V75H60V59H72Z"/><path fill="#ffd45f" d="M76 55H88V63H96V75H84V83H72V71H64V63H76Z"/></g>
+        <g class="stem" stroke="#276b42" stroke-width="3" stroke-linejoin="round"><path fill="#4da85d" d="M76 100H88V159H76Z"/><path fill="#69c765" d="M76 125H48V113H32V129H48V141H76Z"/><path fill="#8cdb63" d="M84 143H112V127H128V143H112V155H84Z"/><path fill="#4eae58" d="M52 155H108V167H52Z"/><path fill="#6acb62" d="M36 167H124V179H36Z"/></g>
+        <g fill="#fff0b5"><rect x="20" y="31" width="7" height="7"/><rect x="132" y="23" width="7" height="7"/><rect x="20" y="111" width="6" height="6"/><rect x="136" y="119" width="6" height="6"/></g>
+      </svg><span class="click-hint">✧ CLICK ME ✧</span>
+    </button>
+    <div class="intro-footer"><span>✿</span> press start to enter <span>✿</span></div>
+  </section>
+  <div class="transition-flash" aria-hidden="true"><div class="rays"></div><div class="tiny-bloom">✿</div></div>
+
+  <section class="landscape" [attr.aria-hidden]="!entered">
+    <div class="scene-overlay"></div>
+    <div class="wood-sign"><span class="sign-small">A LITTLE NOTE FOR</span><strong>Dita :v</strong><b>♥</b></div>
+    <div class="hero-text"><span class="hero-kicker">✦ a little corner made for you ✦</span><h2>Halo, <span>Dita!</span></h2><p>A tiny surprise, just for you.<br>Semoga hari ini ada hal baik yang menghampirimu. 🌷</p><button class="explore-button" type="button" (click)="modalOpen = true; step = 'smile'; startCamera()">BUKA PESAN KECIL INI <span>→</span></button></div>
+    <div class="visitor-note"><span class="note-heart">♥</span><span>Untuk Dita, dari seseorang yang ingin bikin kamu tersenyum. :3</span></div>
+  </section>
+
+  <div class="modal-backdrop" *ngIf="modalOpen">
+    <section class="letter-modal" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modal-title'">
+      <div class="modal-decor">✿　♡　✧</div>
+      <button class="close-modal" *ngIf="step === 'done'" (click)="closeModal()" aria-label="Tutup">×</button>
+
+      <ng-container *ngIf="step === 'smile'">
+        <span class="step-label">A LITTLE HAPPY CHECK · 01/03</span>
+        <h2 id="modal-title">Yok bisa yok senyum dloo!!! 😊</h2>
+        <p class="modal-copy">Passwordnya, lihat senyum Dita dulu. Izinkan kamera yaa — videonya diproses langsung di browser gak bakal di rekam tenang jee.</p>
+        <div class="camera-frame">
+          <video #cameraVideo autoplay playsinline muted [class.video-ready]="cameraReady"></video>
+          <div class="camera-placeholder" *ngIf="!cameraReady"><span>📷</span><b>Kamera akan muncul di sini</b></div>
+          <div class="camera-badge" *ngIf="cameraReady">● LIVE · PRIVATE</div>
+        </div>
+        <div class="smile-meter"><div class="meter-heading"><span>✨ Smile-o-meter</span><strong>{{ smilePercent }}%</strong></div><div class="meter-track"><span [style.width.%]="smilePercent"></span></div><small>{{ smilePassed ? 'Yeay! Senyumnya manis banget 💗' : 'Coba senyum lebar sedikit lagi yaa (target 80%)' }}</small></div>
+        <p class="error-note" *ngIf="cameraError">{{ cameraError }}</p>
+        <button class="secondary-button" *ngIf="cameraError" type="button" (click)="retryCamera()">Coba lagi ↻</button>
+        <button class="primary-button" type="button" [disabled]="!smilePassed" (click)="continueFromSmile()">{{ smilePassed ? 'Lanjut, Cill! 😙' : 'Senyum dulu sampai 80% ♡' }}</button>
+        <p class="tiny-privacy">Tidak ada foto/video yang disimpan..</p>
+      </ng-container>
+
+      <ng-container *ngIf="step === 'mood'">
+        <span class="step-label">A LITTLE CHECK-IN · 02/03</span><h2 id="modal-title">Halo Ditaaa! 🌷</h2>
+        <p class="modal-copy">Gimana kabarmu hari ini?</p>
+        <div class="choice-grid"><button type="button" class="choice-button" (click)="chooseMood('baik')"><span>☀️</span><b>Baik</b><small>Hari ini lumayan menyenangkan</small></button><button type="button" class="choice-button" (click)="chooseMood('sedih')"><span>🌧️</span><b>Sedih</b><small>Hari ini terasa agak berat</small></button></div>
+        <p class="gentle-note">Apa pun jawabanmu, semoga kamu terus bahagiaaa 😇</p>
+      </ng-container>
+
+      <ng-container *ngIf="step === 'story'">
+        <span class="step-label">TAKE YOUR TIME · 02/03</span><h2 id="modal-title">Mau cerita? 💌</h2><p class="modal-copy">Kalau kamu mau cerita, aku siap dengerin. tapi gak papa kok kalo belum mau cerita. but i am here for you.</p>
+        <textarea [(ngModel)]="story" rows="4" maxlength="1200" placeholder="Ceritain di sini kalau kamu mau... (opsional)"></textarea>
+        <div class="button-row"><button class="secondary-button" type="button" (click)="continueStory()">Nggak dulu</button><button class="primary-button" type="button" (click)="continueStory()">Lanjut ♡</button></div>
+      </ng-container>
+
+      <ng-container *ngIf="step === 'date'">
+        <span class="step-label">A LITTLE INVITATION · 03/03</span>
+        <h2 id="modal-title">Aku mau ajak kamu main 🌼</h2>
+        <p class="modal-copy">Aku mau ajak kamu main ke <strong>Vilo Cimanggis</strong>. Kalau kamu mau sih, tapi aku harus minta waktu weekend-nyaa..</p>
+        
+        <a class="map-link" [href]="mapUrl" target="_blank" rel="noopener noreferrer">📍 Lihat lokasi Vilo Cimanggis ↗</a>
+        
+        <label class="date-label" for="weekend-date">Pilih tanggal weekend</label>
+        <input id="weekend-date" type="date" [(ngModel)]="selectedDate" [min]="minDate" [max]="maxDate" (change)="dateError = ''">
+        
+        <p class="date-hint">Pilih hari Sabtu atau Minggu dalam 1 bulan ke depan.</p>
+        <p class="error-note" *ngIf="selectedDate && !dateIsWeekend()">Tanggalnya harus Sabtu atau Minggu yaa 😊</p>
+        <p class="error-note" *ngIf="dateError">{{ dateError }}</p>
+        
+        <!-- Tombol kirim biasa (dengan tanggal) -->
+        <button class="primary-button" type="button" (click)="sendWhatsApp(false)">Kirim jawaban 📫</button>
+        
+        <!-- Tombol kirim kalau belum bisa nentuin (cukup panggil sendWhatsApp(true)) -->
+        <button class="secondary-button" type="button" (click)="sendWhatsApp(true)" style="margin-top: 10px; width: 100%;">
+          Belum bisa nentuin / Nanti dulu yaa 💭
+        </button>
+        
+        <p class="tiny-privacy">otw kirim pesan</p>
+      </ng-container>
+
+      <ng-container *ngIf="step === 'done'">
+        <span class="step-label">MESSAGE READY · ♡</span><div class="done-flower">💌</div><h2 id="modal-title">Makasih, Ditaaa!</h2><p class="modal-copy">yay akhirnya dapet WhatsApp nyaa 😈. Tinggal cek lagi lalu kirim kalau kamu sudah siap. Semoga harimu jadi sedikit lebih bahagiaaa. 🌷</p><button class="primary-button" type="button" (click)="closeModal()">Kembali ke pixel world ditaa ✨</button>
+      </ng-container>
+    </section>
+  </div>
+</main>
