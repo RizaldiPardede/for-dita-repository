@@ -19,6 +19,7 @@ export class AppComponent implements OnDestroy {
   cameraError = '';
   smilePercent = 0;
   smilePassed = false;
+  isMusicPlaying = false;
   selectedMood: 'baik' | 'sedih' | '' = '';
   story = '';
   selectedDate = '';
@@ -31,6 +32,8 @@ export class AppComponent implements OnDestroy {
   private animationFrame = 0;
   private lastVideoTime = -1;
   private faceModelLoading = false;
+  private flowerAudio = new Audio('assets/music/flower-music.mp3');
+
 
   // Ganti dengan nomor WhatsApp tujuan, format internasional tanpa +, spasi, atau strip.
   // Contoh Indonesia: 6281234567890
@@ -44,13 +47,23 @@ export class AppComponent implements OnDestroy {
     this.maxDate = this.toLocalDate(max);
   }
 
+
   enterWorld(): void {
-  if (this.transitioning || this.entered) return;
+    if (this.transitioning || this.entered) return;
+
     this.transitioning = true;
+
+    const audio = new Audio('assets/music/alonica.mp3');
+    audio.loop = true;
+    audio.volume = 0.5;
+
+    void audio.play().catch(error => {
+      console.error('Musik gagal diputar:', error);
+    });
+
     window.setTimeout(() => {
       this.entered = true;
       this.transitioning = false;
-
     }, 1500);
   }
 
